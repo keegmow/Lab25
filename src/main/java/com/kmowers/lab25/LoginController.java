@@ -1,0 +1,48 @@
+package com.kmowers.lab25;
+
+import java.util.Map;
+
+import javax.validation.Valid;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import com.kmowers.lab25.User;
+
+/**
+ * Handles requests for the application home page.
+ */
+@Controller
+public class LoginController {
+	
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String viewLogin(Map<String, Object> model) {
+        User user = new User();
+        model.put("userForm", user);
+        return "LoginForm";
+    }
+ 
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String doLogin(@Valid @ModelAttribute("userForm") User userForm,
+            BindingResult result, Map<String, Object> model) {
+ 
+        if (result.hasErrors()) {
+        	System.out.println(result);
+            return "LoginForm";
+        }
+ 
+        return "LoginSuccess";
+    }
+
+}
